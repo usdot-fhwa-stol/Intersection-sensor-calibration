@@ -48,13 +48,13 @@ pip install opencv-python numpy scikit-image
 ## Sample Data
 Here is an example of a raw image.
 
-![Raw Image](../../../images/raw_image.png)
+![Raw Image](images/raw_image.png)
 
 ---
 
 ## Example Output
 here is an example of the paired output images with checkerboards drawn.
-![Combined Output](../../../images/combined.png)
+![Combined Output](images/combined.png)
 
 ---
 ## Troubleshooting
