@@ -1,0 +1,1 @@
+processed images can be stored in this folder.  This file can be discarded.
