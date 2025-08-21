@@ -21,7 +21,7 @@ def extract_ts(filename):
 
 
 def get_checkerboard_limits(array):
-    """Find bounding box coordinates for checkerboard points."""
+    """Find min/max/center x and y coordinates from input array."""
     ix = int(np.min(array[:, 1]))
     iy = int(np.min(array[:, 0]))
     ax = int(np.max(array[:, 1]))
@@ -32,7 +32,7 @@ def get_checkerboard_limits(array):
 
 
 def resize_checkerboards(frame_arr, corners_arr, found_arr, size_x=500, size_y=500):
-    """Crop and resize frames based on detected checkerboards."""
+    """Crop and resize images to zoom in on detected checkerboard for easier viewing."""
     resized_arr = np.zeros((len(frame_arr), size_y, size_x, 3))
     for i, frame in enumerate(frame_arr):
         if found_arr[i]:

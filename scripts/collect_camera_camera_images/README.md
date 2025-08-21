@@ -45,17 +45,6 @@ python stored_camera_camera_images.py --analyze-stored
 
 - Python 3.9+  
 
-
-**Packages/Modules:**
-- argparse
-- cv2 (OpenCV)
-- numpy
-- skimage
-- datetime
-- os
-- copy
-- csv
-
 **Install dependencies:**
 
 ```bash

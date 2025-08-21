@@ -24,20 +24,6 @@ python script.py --folder ./my/data/set --cameras VisuaCamera1 VisualCamera2
 
 - Python 3.9+  
 
-
-**Packages/Modules:**
-- import argparse
-- import cv2
-- import numpy as np
-- from datetime import datetime
-- import re
-- from collections import defaultdict
-- import copy
-- import skimage
-- import os
-- import csv
-- import glob
-
 **Install dependencies:**
 
 ```bash
