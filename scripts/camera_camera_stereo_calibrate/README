@@ -1,0 +1,104 @@
+# Camera-to-Camera Stereo Calibration
+
+This script computes **stereo calibration** between pairs of cameras using checkerboard corner detections.  It supports several options for additional tuning, including inlier filtering and flexible handling of intrinsic parameters.
+
+---
+## set up
+
+### packages
+The following packages were used:
+
+-import argparse<br>
+-import csv<br>
+-import os<br>
+-from pathlib import Path<br>
+-import cv2<br>
+-import pandas as pd<br>
+-import numpy as np<br>
+-import matplotlib.pyplot as plt<br>
+-import sys<br>
+-import copy<br>
+-import skimage<br>
+-from math import atan, atan2, radians, degrees, sqrt, pi, floor, cos, sin<br>
+-from csv import writer<br>
+-from datetime import datetime<br>
+-from sklearn.preprocessing import RobustScaler<br>
+-from scipy.spatial.transform import Rotation<br>
+-import matplotlib.pyplot as plt<br>
+-from scipy.spatial.distance import cdist<br>
+-from itertools import combinations<br>
+
+```bash
+pip install opencv-python pandas numpy matplotlib scikit-image scikit-learn scipy
+```
+---
+## Usage
+
+The script can be run from the command line with various arguments or with its built-in defaults for testing purposes.
+
+Example from the command line using using all flags:
+
+```bash
+python camera_camera_stereo_calibrate.py \
+    -d <path/to/checkerboard_results.csv> \
+    -c VisualCamera5 VisualCamera8 \
+    --inlier_filter \
+    --use_intrinsic_guess \
+    --verbose
+```
+
+### Arguments
+
+|Flag / Argument|Type|Default|Description|
+|----|---|---|---|
+|-d, --database|str|processed_data/camera_camera/    camcam_17_run0/    checkerboard_results.csv|Path to checkerboard detection results CSV.|
+|-c, --cameras|list[str]|["VisualCamera5", "VisualCamera8"]|List of cameras to calibrate (at least 2 required).|
+|--no_image|flag|disabled|Lets users skip the image collage and verification.|
+|--inlier_filter|flag|disabled|	Filters noisy corner detections using RANSAC inlier selection.|
+|--use_intrinsic_guess|flag|disabled (default: cv2.CALIB_FIX_INTRINSIC)|Uses cv2.CALIB_USE_INTRINSIC_GUESS instead of fixing intrinsics.|
+|--verbose|flag|disabled|Prints detailed calibration steps, including per-pair error values.|
+
+### Collage Review
+After running the script users will be provided with two collages of the paired frames overlaid each camera's view.  Users can press "y" to accept the images if they look acceptable.  The collages look like this:
+
+![1 camera collage](images/12_collage.png "1 camera collage")
+---
+## Output
+
+The output, with verbose enabled, should provide results like the folowing example.
+
+*#the path to your script*<br>
+your\path\python.exe 
+your\path\to\camera_camera_stereo_calibrate.py \
+--use_intrinsic_guess --inlier_filter --verbose
+
+*#the path to your data file*<br>
+Using database file: your\path\to\checkerboard_results.csv
+Verbose mode enabled
+
+*#the camera pair being evaluated*<br>
+Calibrating camera pair: VisualCamera5 <-> VisualCamera8
+*#the error rate, in pixels, showing the reprojection error, or how far the projected checkberboards deviate from teh corners actually detected*<br>
+*#error_12: how well the script reprojects points from cam 1 to cam 2*<br>
+*#error_21: how well the script reprojects points from cam 2 to cam 1*<br>
+VisualCamera5 -> VisualCamera8 image count: 21, error_12: 2.6186881065368652, error_21: 1.9375003576278687
+*#the number of images filtered out by the inlier filter if enabled.*<br>
+Inlier-filtered images retained: 21
+
+*#error_21: how well the script reprojects points from cam 2 to cam 1*<br>
+
+
+*#The rotation matrix*<br>
+Calibration summary:
+VisualCamera5 -> VisualCamera8:
+  R =
+[[ 0.72322172 -0.15493036  0.67301332]
+ [ 0.19666194  0.98036633  0.01435086]
+ [-0.66202298  0.12197726  0.73949113]]
+ *the translation vector*<br>
+  t = [[-19.25753748]
+ [ -0.26446594]
+ [  1.13417719]]
+
+ *#The Euler angles*<br>
+Rotation (Euler angles, degrees) = [ 9.36646012 41.45433974 15.21231641]
