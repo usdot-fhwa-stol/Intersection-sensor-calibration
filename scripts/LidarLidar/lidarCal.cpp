@@ -2,6 +2,19 @@
 #include "generateTransform.h"
 #include "ICP.h"
 
+#include <iostream>
+#include <string>
+#include <utility>
+#include <vector>
+#include <algorithm>
+
+#include <pcl/io/pcd_io.h>
+#include <pcl/point_types.h>
+
+#include <Eigen/Dense>
+#include <Eigen/Geometry>
+
+
 int main()
 { 
     //Boolean for either performing segmentation or generating transformation matrices
