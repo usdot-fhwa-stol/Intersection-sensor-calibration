@@ -14,6 +14,48 @@
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
 
+// ================= Configuration Parameters =================
+
+// Workflow toggle
+
+//Boolean for either performing segmentation or generating transformation matrices
+constexpr bool PERFORM_SEGMENTATION = false;
+
+// LiDAR settings
+//
+// Set this member variable to the LiDAR being worked with (233 or 234)
+// should match the IDs in the directory under PCD data folders
+const std::string LIDAR_ID = "234";
+// The timestamp in the point cloud filename    
+const std::string POINT_CLOUD_TIMESTAMP = "15_31_54_1707424549.5918";
+
+// File paths
+//
+// Get the checkerboard centroids CSV file
+const std::string CENTROID_CSV = "../centroids.csv";
+// set the directories for .pcd files for each LIDAR
+// assumes the following convention ../pcds/<your_dir>/alignedPointCloud_<timestamp>.pcd
+const std::string PCD_DIR_233 = "../pcds/233/";
+const std::string PCD_DIR_234 = "../pcds/234/";
+
+// Region-of-interest bounds for checkerboard segmentation
+//
+// Each LIDAR may need different bounds
+// bounds are min/max, units are in meters
+struct ROI {
+    float xMin;
+    float xMax;
+    float yMin;
+    float yMax;
+};
+
+// ROI bounds tuned for LiDAR 233
+// numbers declared as floats
+const ROI ROI_233 = {7.75f, 12.0f, -8.0f, -3.75f};
+// ROI bounds tuned for LiDAR 234
+const ROI ROI_234 = {19.0f, 23.0f, -27.0f, -23.0f};
+
+// ============================================================
 
 int main()
 { 
