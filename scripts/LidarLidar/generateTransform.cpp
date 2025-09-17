@@ -1,5 +1,17 @@
 #include "generateTransform.h"
 
+// Standard Library
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <vector>
+#include <stdexcept>
+
+// Eigen
+#include <Eigen/Dense>
+#include <Eigen/Geometry>
+
 /**
  * The constructor for the generateTransform class
 */
