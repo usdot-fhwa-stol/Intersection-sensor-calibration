@@ -1,5 +1,39 @@
 #include "segmentation.h"
 
+// Standard Library
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <thread>
+#include <chrono>
+
+// Eigen
+#include <Eigen/Dense>
+
+// PCL
+#include <pcl/ModelCoefficients.h>
+#include <pcl/io/pcd_io.h>
+#include <pcl/sample_consensus/method_types.h>
+#include <pcl/sample_consensus/model_types.h>
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
+#include <pcl/filters/conditional_removal.h>
+#include <pcl/filters/filter.h>
+#include <pcl/filters/passthrough.h>
+#include <pcl/visualization/pcl_visualizer.h>
+#include <pcl/filters/extract_indices.h>
+#include <pcl/search/kdtree.h>
+#include <pcl/features/normal_3d.h>
+#include <pcl/PointIndices.h>
+#include <pcl/segmentation/sac_segmentation.h>
+#include <pcl/segmentation/region_growing.h>
+#include <pcl/segmentation/extract_clusters.h>
+
+
 /**
  * The constructor for the segmentation class. Initializes the two centroid matrices to 3x3 to store the 3D centroid locations.
 */
