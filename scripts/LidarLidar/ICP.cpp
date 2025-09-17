@@ -1,5 +1,24 @@
 #include "ICP.h"
 
+// Standard Library
+#include <iostream>
+#include <filesystem>
+#include <regex>
+#include <vector>
+#include <string>
+
+// Eigen
+#include <Eigen/Dense>
+#include <Eigen/Geometry>
+
+// PCL
+#include <pcl/io/pcd_io.h>
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
+#include <pcl/registration/icp.h>
+#include <pcl/visualization/pcl_visualizer.h>
+
+
 /**
  * The constructor for the ICP class
 */
