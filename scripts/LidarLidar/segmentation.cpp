@@ -47,14 +47,14 @@ constexpr int MIN_CLUSTER_SIZE = 20;
 constexpr double NORMAL_RADIUS = 1.0; // meters
 
 // ROI bounds 
-// set to defaults currently, these can be overridden when calling filterPointCloud
+// set to ROI in lidarCal.cpp currently
 struct ROI {
     float xMin;
     float xMax;
     float yMin;
     float yMax;
 };
-constexpr ROI DEFAULT_ROI = { -10.0f, 10.0f, -10.0f, 10.0f };
+// constexpr ROI DEFAULT_ROI = { -10.0f, 10.0f, -10.0f, 10.0f };
 
 // ============================================================
 
