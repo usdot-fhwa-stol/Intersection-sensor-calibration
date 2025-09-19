@@ -12,6 +12,26 @@
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
 
+
+// ================= Configuration Parameters =================
+
+// csv filepath passed from lidarCal.cpp
+// can use the following for testing if needed.
+// constexpr const char* CENTROID_CSV_PATH = "../centroids.csv";
+
+
+// LiDAR IDs used in this calibration
+constexpr int LIDAR_ID_1 = 233;
+constexpr int LIDAR_ID_2 = 234;
+
+// CSV column layout assumptions
+constexpr int CSV_ID_COLUMN = 0;
+constexpr int CSV_X_COLUMN = 2;
+constexpr int CSV_Y_COLUMN = 3;
+constexpr int CSV_Z_COLUMN = 4;
+
+// ============================================================
+
 /**
  * The constructor for the generateTransform class
 */
@@ -58,20 +78,22 @@ std::vector<std::string> generateTransform::split(const std::string &s, char del
  */
 std::pair<Eigen::MatrixXd, Eigen::MatrixXd> generateTransform::getCentroidsFromCSV(std::string centroidsFilePath) {
 
+
     //Attempt to open the centroids csv file
     bool readSuccess = false;
     std::ifstream centroidFile;
-    try
-    {
-        std::cout << "Reading the csv file" << std::endl;
-        centroidFile.open(centroidsFilePath);
+    try {
+        centroidFile.open(centroidsFilePath);   // <-- actually try to open the file
 
-        readSuccess = true;
-
+        if (centroidFile.is_open()) {
+            readSuccess = true;
+        } else {
+            std::cerr << "Error opening CSV file: " << centroidsFilePath << std::endl;
+        }
     }
     catch(const std::exception& e)
     {
-        std::cout << "Error reading the csv file" << std::endl;
+        std::cerr << "Exception while reading CSV file: " << e.what() << std::endl;
     }
 
     std::pair<Eigen::MatrixXd, Eigen::MatrixXd> lidarPoints;
@@ -81,7 +103,7 @@ std::pair<Eigen::MatrixXd, Eigen::MatrixXd> generateTransform::getCentroidsFromC
         std::string line;
 
         //Create vectors of Eigen::Vector3d for each three-dimensional centroid
-        std::vector<Eigen::Vector3d> pointsLiDAR233, pointsLiDAR234;
+        std::vector<Eigen::Vector3d> pointsLiDAR1, pointsLiDAR2;
 
         // Skip header line
         std::getline(centroidFile, line);
@@ -91,36 +113,45 @@ std::pair<Eigen::MatrixXd, Eigen::MatrixXd> generateTransform::getCentroidsFromC
 
             //Split the line by comma delimiter and extract the lidar name and centroid
             auto tokens = split(line, ',');
-            int lidarID = std::stoi(tokens[0]);
-            Eigen::Vector3d point(std::stod(tokens[2]), std::stod(tokens[3]), std::stod(tokens[4]));
+
+            int lidarID = std::stoi(tokens[CSV_ID_COLUMN]);
+            Eigen::Vector3d point(
+                std::stod(tokens[CSV_X_COLUMN]),
+                std::stod(tokens[CSV_Y_COLUMN]),
+                std::stod(tokens[CSV_Z_COLUMN])
+            );
+
 
             //Add each centroid to its associated vector
-            if (lidarID == 233) {
-                pointsLiDAR233.push_back(point);
-            } else if (lidarID == 234) {
-                pointsLiDAR234.push_back(point);
+            if (lidarID == LIDAR_ID_1) {
+                pointsLiDAR1.push_back(point);
+            } else if (lidarID == LIDAR_ID_2) {
+                pointsLiDAR2.push_back(point);
             }
         }
 
         //Create two Eigen::MatrixXd and add the centroids
-        Eigen::MatrixXd matrixLiDAR233(0, 3);
-        Eigen::MatrixXd matrixLiDAR234(0, 3);
+        Eigen::MatrixXd matrixLiDAR1(0, 3);
+        Eigen::MatrixXd matrixLiDAR2(0, 3);
 
-        for (size_t i = 0; i < pointsLiDAR233.size(); ++i) {
-            appendPoint(matrixLiDAR233, pointsLiDAR233[i]);
+        for (size_t i = 0; i < pointsLiDAR1.size(); ++i) {
+            appendPoint(matrixLiDAR1, pointsLiDAR1[i]);
         }
 
-        for (size_t i = 0; i < pointsLiDAR234.size(); ++i) {
-            appendPoint(matrixLiDAR234, pointsLiDAR234[i]);
+        for (size_t i = 0; i < pointsLiDAR2.size(); ++i) {
+            appendPoint(matrixLiDAR2, pointsLiDAR2[i]);
         }
 
         // Output the matrices for verification
-        std::cout << "Centroids for LiDAR 233:\n" << matrixLiDAR233 << "\n\n";
-        std::cout << "Centroids for LiDAR 234:\n" << matrixLiDAR234 << std::endl;
+        //std::cout << "Centroids for LiDAR 233:\n" << matrixLiDAR233 << "\n\n";
+        //std::cout << "Centroids for LiDAR 234:\n" << matrixLiDAR234 << std::endl;
+        std::cout << "Centroids for LiDAR " << LIDAR_ID_1 << ":\n" << matrixLiDAR1 << "\n\n";
+        std::cout << "Centroids for LiDAR " << LIDAR_ID_2 << ":\n" << matrixLiDAR2 << std::endl;
+
 
         //Return the centroids as a std::pair
-        lidarPoints.first = matrixLiDAR233;
-        lidarPoints.second = matrixLiDAR234;
+        lidarPoints.first = matrixLiDAR1;
+        lidarPoints.second = matrixLiDAR2;
     }    
 
     return lidarPoints;
