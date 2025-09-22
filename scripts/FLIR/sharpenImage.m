@@ -1,6 +1,9 @@
+% Apply median filtering with multiple kernel sizes
+
 clear all; clc; close all;
 
 %Median Filter Section
+% set your desired image here
 inputImg = imread('flir180.png');
 
 %Iterate with filter size of 3,5,7
