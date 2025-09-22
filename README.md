@@ -40,26 +40,6 @@ ISC/
 
 - Python 3.9+  
 
-
-**Packages/Modules:**
-- datetime
-- timedelta (from datetime)
-- copy
-- os
-- csv
-- glob
-- pathlib
-- sys
-- math (atan, atan2, radians, degrees, sqrt, pi, floor, cos, sin)
-- opencv-python (for cv2)
-- numpy
-- scikit-image (for skimage)
-- pandas
-- matplotlib
-- scikit-learn (for sklearn.preprocessing)
-- scipy
-
-
 **Install dependencies:**
 
 ```bash

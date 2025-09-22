@@ -8,26 +8,6 @@ This script computes **stereo calibration** between pairs of cameras using check
 ### packages
 The following packages were used:
 
--import argparse<br>
--import csv<br>
--import os<br>
--from pathlib import Path<br>
--import cv2<br>
--import pandas as pd<br>
--import numpy as np<br>
--import matplotlib.pyplot as plt<br>
--import sys<br>
--import copy<br>
--import skimage<br>
--from math import atan, atan2, radians, degrees, sqrt, pi, floor, cos, sin<br>
--from csv import writer<br>
--from datetime import datetime<br>
--from sklearn.preprocessing import RobustScaler<br>
--from scipy.spatial.transform import Rotation<br>
--import matplotlib.pyplot as plt<br>
--from scipy.spatial.distance import cdist<br>
--from itertools import combinations<br>
-
 ```bash
 pip install opencv-python pandas numpy matplotlib scikit-image scikit-learn scipy
 ```
@@ -62,6 +42,31 @@ python camera_camera_stereo_calibrate.py \
 After running the script users will be provided with two collages of the paired frames overlaid each camera's view.  Users can press "y" to accept the images if they look acceptable.  The collages look like this:
 
 ![1 camera collage](images/12_collage.png "1 camera collage")
+
+
+### Adding your own cameras
+
+If you would like to add your own cameras you have to update the `get_camera_intrinsics()` function. For this you have two options.
+
+- *Option 1*:  add the calibration values for your camera (preferred and most accurate approach).   For this approach, you can use OpenCVs cv2.calibrateCamera fucntion, but you must provide the **intrinsic matrix (k)** and **distortion coefficients (d).**.  Once you retrieve these  parameters you can populate the sample snippet in the script as seen below:
+
+```
+elif camera_name == "MyNewCamera":
+    K1 = np.array([[fx, 0, cx],
+                   [0, fy, cy],
+                   [0,  0,  1]])
+    d1 = np.array([k1, k2, p1, p2, k3])
+
+```
+
+- *Option 2*:  Use intrinsic guess and a rough estimate (quick start).  For this option you need to remove the #'s from the commented out snippet at the end of the `get_camera_intrinsics()` function.  Then you can run the script with the --use_intrinsic_guess flag.
+
+```
+python camera_camera_stereo_calibrate.py --cameras MyNewCamera VisualCamera5 --use_intrinsic_guess
+```
+
+**Please Note**, for either option to work you must update the `get_camera_intrinsics()` function so that there's at least a stub with your camera's name or the script will exit.
+
 ---
 ## Output
 

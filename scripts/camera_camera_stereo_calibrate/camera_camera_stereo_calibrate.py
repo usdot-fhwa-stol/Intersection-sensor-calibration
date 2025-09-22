@@ -409,8 +409,24 @@ def get_camera_intrinsics(camera_name):
                        [0, 0, 1]])  # Flir183 Camera intrinsic matrix [[fx 0 cx],[0 fy cy],[0 0 1]]
         d1 = np.array((-0.0126, 0.4509, 0.0102,
                        3.6467e-04))  # Flir183 Camera distortion coefficients k-radial p-tangential (k1 k2 p1 p2 k3)
+    # add your camera intrinsics here
+    #elif camera_name == "MyNewCamera":
+    #K1 = np.array([[fx, 0, cx],
+    #               [0, fy, cy],
+    #               [0,  0,  1]])
+    #d1 = np.array([k1, k2, p1, p2, k3])
+    #
+    ## or use intrinsic guess with this generic option
+    ## Rough guess: fx=fy=1000, principal point ~image center, no distortion
+    #
+    #elif camera_name == "MyNewCamera":
+    #K1 = np.array([[1000, 0, 640],
+    #               [0, 1000, 360],
+    #               [0,    0,   1]])
+    #d1 = np.zeros(5)
+
     else:
-        print(f'unknown camera entered: {camera_name}')
+        print(f'unknown camera entered: {camera_name}, please add your camera following the instructions in the readme')
         exit()
     return K1, d1
 

@@ -40,6 +40,44 @@ python stored_camera_camera_images.py --analyze-stored
 | `--analyze-stored`| Flag to analyze all stored images for checkerboards after capture | No Analysis|
 
 
+### Adding Your Own Camera Streams
+
+the script takes camera selections from the "CAMERA_CONFIG" section of the script.
+
+```python
+CAMERA_CONFIG = {
+    "VisualCamera4": ("axis", "192.168.55.30"),
+```
+Each camera entry should have the following form:
+```
+"CameraName": ("device_type", "ip_or_host:port")
+```
+- **CameraName**: A unique name for the camera.
+
+- **device_type**: Options include: pelco, axis, radar, or flir.
+
+- **ip_or_host:port**: The address of your camera or stream. For pelco and axis cameras, the script automatically uses their RTSP paths; for radar it appends /stream; for flir it uses the IP directly.
+
+**Example**:
+If you wanted to add a new Axis camera at IP 192.168.1.50, you would change the camera entry to:
+
+```
+CAMERA_CONFIG["MyAxisCam"] = ("axis", "192.168.1.50")
+```
+
+After you save your script it can be run using the new camera configuration.  By default all cameras included in the configuration will be used.  However, you can specify just the new camera with
+
+```
+python collect_camera_camera_images.py --cameras MyAxisCam --output ./my/output/folder
+```
+
+Processing may be slow with livestreams in which case you may choose to forgo looking for checkerboards by omitting the `--analyze-stored` flag.
+
+**Notes**
+- Make sure the camera supports RTSP streaming and that your network/firewall settings allow access.
+
+- The script will exit if you specify a camera name that isn’t in CAMERA_CONFIG.
+
 ---
 ## Requirements
 
