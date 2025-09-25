@@ -56,28 +56,26 @@ Intersection-sensor-calibration/
 └── scripts/
     └── LidarLidar/
         ├── scripts/
-        │   ├── CMakeLists.txt
-        │   ├── lidarCal.cpp
-        │   ├── segmentation.cpp
-        │   ├── segmentation.h
-        │   ├── generateTransform.cpp
-        │   ├── generateTransform.h
-        │   ├── ICP.cpp
-        │   ├── ICP.h
-        │   └── build/                  # populated after you run cmake
-        │       ├── lidar_cal           # compiled executable
-        │       ├── CMakeFiles/...
-        │       └── ...
-        │
-        ├── pcds/                       
-        │   ├── 233/                    # LiDAR 233 point clouds
-        │   │   ├── alignedPointCloud_<timestamp>.pcd
-        │   │   └── ...
-        │   └── 234/                    # LiDAR 234 point clouds
-        │       ├── alignedPointCloud_<timestamp>.pcd
-        │       └── ...
-        │
-        └── centroids.csv               # generated/updated after segmentation
+            ├── CMakeLists.txt
+            ├── lidarCal.cpp
+            ├── segmentation.cpp
+            ├── segmentation.h
+            ├── generateTransform.cpp
+            ├── generateTransform.h
+            ├── ICP.cpp
+            ├── ICP.h
+            ├── centroids.csv               # generated/updated after segmentation
+            ├── build/                  # populated after you run cmake
+            |       ├── lidar_cal           # compiled executable
+            |       ├── CMakeFiles/...
+            |       └── ...
+            └── pcds/                       
+                  ├── 233/                    # LiDAR 233 point clouds
+                  │    ├── alignedPointCloud_<timestamp>.pcd
+                  │    └── ...
+                  └── 234/                    # LiDAR 234 point clouds
+                       ├── alignedPointCloud_<timestamp>.pcd
+                       └── ...
 
 ```
 
