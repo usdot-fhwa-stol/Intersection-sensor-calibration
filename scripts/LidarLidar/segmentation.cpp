@@ -182,7 +182,7 @@ pcl::PointCloud<pcl::Normal>::Ptr segmentation::normalEstimation(const pcl::Poin
     normal_estimator.setSearchMethod(tree);
     normal_estimator.compute(*normals);
 
-
+    // This snippet can be used for debugging if needed.
     // Initialize visualizer for surface normal verification
     // pcl::visualization::PCLVisualizer::Ptr viewer(new pcl::visualization::PCLVisualizer("test"));
     
