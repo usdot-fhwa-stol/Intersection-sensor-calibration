@@ -49,6 +49,105 @@ Sample Lidar, FLIR, and visual camera data can be retrieved from the [Intersecti
 
 ## Usage and Configuration
 
+### expected folder structure
+
+```
+Intersection-sensor-calibration/
+└── scripts/
+    └── LidarLidar/
+        ├── scripts/
+        │   ├── CMakeLists.txt
+        │   ├── lidarCal.cpp
+        │   ├── segmentation.cpp
+        │   ├── segmentation.h
+        │   ├── generateTransform.cpp
+        │   ├── generateTransform.h
+        │   ├── ICP.cpp
+        │   ├── ICP.h
+        │   └── build/                  # populated after you run cmake
+        │       ├── lidar_cal           # compiled executable
+        │       ├── CMakeFiles/...
+        │       └── ...
+        │
+        ├── pcds/                       
+        │   ├── 233/                    # LiDAR 233 point clouds
+        │   │   ├── alignedPointCloud_<timestamp>.pcd
+        │   │   └── ...
+        │   └── 234/                    # LiDAR 234 point clouds
+        │       ├── alignedPointCloud_<timestamp>.pcd
+        │       └── ...
+        │
+        └── centroids.csv               # generated/updated after segmentation
+
+```
+
+### Quick Start
+1. clone the repo locally
+    ```bash
+    git clone https://github.com/usdot-fhwa-stol/Intersection-sensor-calibration.git
+
+    cd Intersection-sensor-calibration/scripts/LidarLidar
+    ```
+2. Download the sample data, unzip, and rename if needed.
+    ```
+            ├── pcds/                       
+            │   ├── 233/                    # LiDAR 233 point clouds
+            │   │   ├── alignedPointCloud_<timestamp>.pcd
+            │   │   └── ...
+            │   └── 234/                    # LiDAR 234 point clouds
+            │       ├── alignedPointCloud_<timestamp>.pcd
+            │       └── ...
+    ```
+
+
+3. Create and move to build folder
+    ```bash
+    mkdir build && cd build
+    ```
+
+4. run cmake, watch for errors or needed packages. Install these if needed.
+    ```bash
+    cmake ..
+    ```
+
+5. compile the executable
+    ```
+    make -j$(nproc)
+    ```
+
+6. Run
+    ```bash
+    ./lidar_cal
+    ```
+
+**Run Segementation Mode**
+1. edit lidarCal.cpp and set:
+`constexpr bool PERFORM_SEGMENTATION = true;`
+
+2. Rebuild
+    ```bash
+    cd build
+    make -j$(nproc)
+    ```
+3. Run
+    ```bash
+    ./lidar_cal
+    ```
+
+**Run calibration + ICP mode**
+1. edit lidarCal.cpp and set:
+`constexpr bool PERFORM_SEGMENTATION = false;`
+
+2. Rebuild
+    ```bash
+    cd build
+    make -j$(nproc)
+    ```
+3. Run
+    ```bash
+    ./lidar_cal
+    ```
+
 ### lidarCal.cpp
 The lidarCal.cpp script has a config section that must be updated to set the desired behavior and values prior being compiled and run.  These settings are summarized in the table below.
 
