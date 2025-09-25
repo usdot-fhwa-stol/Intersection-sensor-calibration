@@ -18,6 +18,20 @@ To use just edit the configuration section at the top of the script including:
 - outputDir: directory where processed images will be saved.
 - medianFilterSize: Currently set to the default of 3.
 
+### Folder Setup
+The script expects the following folder structure.
+```
+project-root/
+├─ sharpenEqualizeImages.m
+├─ data/
+│   ├─ input/      # Place your original .png thermal images here
+│   └─ output/     # Processed images will be saved here automatically
+```
+
+### sample data
+
+Sample Lidar, FLIR, and visual camera data can be retrieved from the [Intersection-Safety-Challenge website](https://data.transportation.gov/Roadways-and-Bridges/Intersection-Safety-Challenge-Stage-1B-Sample/vq7s-mv3v/about_data).
+
 **How it works**
 
 The script works by reading all .png images in the specified directory, applies histogram equalization to each, applies median filtering using the built in imFilter function with the number of kernel sizes you've selected. Then saves the processed images to with your specified suffix to the output directory.
