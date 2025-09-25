@@ -31,7 +31,7 @@ transformation matrix.
 - A legacy CMakeLists.txt file included for convenience when compliling.  This legacy script builds all the core modules into a single executable but doesn't make use of the header files.  Compiling the .cpp files directly with your own build system is recommended.
 
 ## Sample Data
-Sample Lidar, FLIR, and visual camera data can be retrieved from this link.  The script expects to find the .pcd files in ../pcds/233/ and ../pcds/234/ relative to the lidarcal executable.
+Sample Lidar, FLIR, and visual camera data can be retrieved from the [Intersection-Safety-Challenge website](https://data.transportation.gov/Roadways-and-Bridges/Intersection-Safety-Challenge-Stage-1B-Sample/vq7s-mv3v/about_data).  The Lidar scripts expect to find the .pcd files in ../pcds/233/ and ../pcds/234/ relative to the lidarcal executable.
 
 ## Data Flow
 
