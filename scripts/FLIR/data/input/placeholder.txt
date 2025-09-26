@@ -1,1 +1,1 @@
-place original .png thermal images here.  You can download sample images from the link in the readme.
+place original .png thermal images here.  Sample images for testing have been included here.

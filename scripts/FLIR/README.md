@@ -30,7 +30,7 @@ project-root/
 
 ### sample data
 
-Sample Lidar, FLIR, and visual camera data can be retrieved from the [Intersection-Safety-Challenge website](https://data.transportation.gov/Roadways-and-Bridges/Intersection-Safety-Challenge-Stage-1B-Sample/vq7s-mv3v/about_data).
+Sample FLIR images for testing have been included in the input folder.
 
 **How it works**
 
