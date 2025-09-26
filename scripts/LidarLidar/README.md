@@ -132,6 +132,10 @@ Intersection-sensor-calibration/
     ./lidar_cal
     ```
 
+4. Visualizer initiates - inspect points to confirm they look acceptable.
+You may need to zoom out to see them.  Enter "q" to exit the visualizer
+or "esc" to set x, y min and max values manually.
+
 **Run calibration + ICP mode**
 1. edit lidarCal.cpp and set:
 `constexpr bool PERFORM_SEGMENTATION = false;`
@@ -153,7 +157,7 @@ The lidarCal.cpp script has a config section that must be updated to set the des
 |:---:|:---:|:---|
 |PERFORM_SEGMENTATION|true / false|Workflow mode toggle. true = extract checkerboard centroids into centroids.csv. false = generate & refine transformation matrix using centroids + ICP.|
 |LIDAR_ID|"233" / "234"|The LiDAR sensor being processed. Must match the folder name under ../pcds/.|
-|POINT_CLOUD_TIMESTAMP|"15_31_54_1707424549.5918"|Timestamp portion of the .pcd filename to process in segmentation mode. Format: HH_MM_SS_<epoch>.|
+|POINT_CLOUD_TIMESTAMP|"15_31_54_1707424549.5918"|Timestamp portion of the .pcd filename to process in segmentation mode. Format: HH_MM_SS_<epoch>. This must match one of your pcd files exactly|
 |CENTROID_CSV|"../centroids.csv"|Path to the CSV file where checkerboard centroids are stored. Used to generate the initial transformation.|
 |PCD_DIR_233|"../pcds/233/"|Directory containing .pcd files for LiDAR 233. Files must follow naming convention alignedPointCloud_<timestamp>.pcd.|
 |PCD_DIR_234|"../pcds/234/"|Directory containing .pcd files for LiDAR 234. Same naming convention as above.|
