@@ -60,16 +60,7 @@ These scripts are written to be used in sequence.  First capture and perform ini
 | `stored_camera_camera_images.py` | performs initial processing with stored images. | 
 | `camera_camera_stereo_calibrate.py` | Runs stereo calibration between two cameras. |
 
-
-
 ---
-
-## Contribution Guide
-
-*in progress*
 
 ## Troubleshooting
 *for troubleshooting guidance please refer to each scripts readme or in-line documentaiton in the script itself.*
-
-## License and Credits
-*in progress*

@@ -41,7 +41,7 @@ python camera_camera_stereo_calibrate.py \
 ### Collage Review
 After running the script users will be provided with two collages of the paired frames overlaid each camera's view.  Users can press "y" to accept the images if they look acceptable.  The collages look like this:
 
-![1 camera collage](images/12_collage.png "1 camera collage")
+![1 camera collage](../../images/12_collage.png "1 camera collage")
 
 
 ### Adding your own cameras
