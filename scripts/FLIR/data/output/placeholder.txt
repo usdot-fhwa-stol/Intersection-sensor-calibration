@@ -1,0 +1,1 @@
+Processed sharpened and equalized images will be saved here.
