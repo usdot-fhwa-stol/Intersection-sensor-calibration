@@ -1,5 +1,64 @@
 #include "segmentation.h"
 
+// Standard Library
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <thread>
+#include <chrono>
+
+// Eigen
+#include <Eigen/Dense>
+
+// PCL
+#include <pcl/ModelCoefficients.h>
+#include <pcl/io/pcd_io.h>
+#include <pcl/sample_consensus/method_types.h>
+#include <pcl/sample_consensus/model_types.h>
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
+#include <pcl/filters/conditional_removal.h>
+#include <pcl/filters/filter.h>
+#include <pcl/filters/passthrough.h>
+#include <pcl/visualization/pcl_visualizer.h>
+#include <pcl/filters/extract_indices.h>
+#include <pcl/search/kdtree.h>
+#include <pcl/features/normal_3d.h>
+#include <pcl/PointIndices.h>
+#include <pcl/segmentation/sac_segmentation.h>
+#include <pcl/segmentation/region_growing.h>
+#include <pcl/segmentation/extract_clusters.h>
+
+// ================= Configuration Parameters =================
+
+// centroid CSV filepath
+constexpr const char* CENTROID_CSV_PATH = "../centroids.csv";
+
+// Clustering parameters
+constexpr double CLUSTER_TOLERANCE = 0.6; // meters
+constexpr int MIN_CLUSTER_SIZE = 20;
+// constexpr int MAX_CLUSTER_SIZE = 300; // optional if you want to re-enable max cluster size
+
+// Normal radius
+constexpr double NORMAL_RADIUS = 1.0; // meters
+
+// ROI bounds 
+// set to ROI in lidarCal.cpp currently
+struct ROI {
+    float xMin;
+    float xMax;
+    float yMin;
+    float yMax;
+};
+// constexpr ROI DEFAULT_ROI = { -10.0f, 10.0f, -10.0f, 10.0f };
+
+// ============================================================
+
+
 /**
  * The constructor for the segmentation class. Initializes the two centroid matrices to 3x3 to store the 3D centroid locations.
 */
@@ -116,14 +175,14 @@ pcl::PointCloud<pcl::Normal>::Ptr segmentation::normalEstimation(const pcl::Poin
     pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> normal_estimator;
     normal_estimator.setInputCloud(cloud);
     // normal_estimator.setRadiusSearch(0.25); //in meters, works for lidar-cam data
-    normal_estimator.setRadiusSearch(1); //in meters, kinda works for lidar-lidar data
+    normal_estimator.setRadiusSearch(NORMAL_RADIUS); //in meters, kinda works for lidar-lidar data
 
      // Create KD tree for nearest neighbors search
     pcl::search::KdTree<pcl::PointXYZ>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZ>);
     normal_estimator.setSearchMethod(tree);
     normal_estimator.compute(*normals);
 
-
+    // This snippet can be used for debugging if needed.
     // Initialize visualizer for surface normal verification
     // pcl::visualization::PCLVisualizer::Ptr viewer(new pcl::visualization::PCLVisualizer("test"));
     
@@ -269,9 +328,9 @@ std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> segmentation::euclideanClusteri
     pcl::search::KdTree<pcl::PointXYZ>::Ptr tree (new pcl::search::KdTree<pcl::PointXYZ>);
     tree->setInputCloud(vertical_surfaces);
     pcl::EuclideanClusterExtraction<pcl::PointXYZ> ec;
-    ec.setClusterTolerance(0.6); //in meters, THIS IS THE MAIN PARAMETER TO TWEAK WHEN FORMING CLUSTERS
-    ec.setMinClusterSize(20); // Minimum size of a cluster (adjust based on your needs)
-    // ec.setMaxClusterSize(300); // Maximum size of a cluster (adjust based on your needs)
+    ec.setClusterTolerance(CLUSTER_TOLERANCE); //in meters, THIS IS THE MAIN PARAMETER TO TWEAK WHEN FORMING CLUSTERS
+    ec.setMinClusterSize(MIN_CLUSTER_SIZE); // Minimum size of a cluster (adjust based on your needs)
+    // ec.setMaxClusterSize(MAX_CLUSTER_SIZE); // Maximum size of a cluster (adjust based on your needs)
     ec.setSearchMethod(tree);
     ec.setInputCloud(vertical_surfaces);
     ec.extract(this->clusterIndices);
@@ -344,7 +403,7 @@ void segmentation::createClusterCloud(const pcl::PointCloud<pcl::PointXYZ>::Ptr&
  */
 void segmentation::appendToCSV(Eigen::Vector3d centroid, std::string pointCloudName) {
     // Path to the CSV file
-    std::string filePath = "../centroids.csv";
+    std::string filePath = CENTROID_CSV_PATH;
 
     // Open the file in append mode
     std::ofstream fileStream(filePath, std::ios::app);

@@ -1,0 +1,6 @@
+Place your Lidar folders in the pcds folder here.
+the script expects to find two folders, 233 and 234.
+Place the .pcd files for each inside.
+
+here's a link to the complete sample data (Lidar, FLIR, and Visual Camera files) 
+for testing. https://data.transportation.gov/api/views/vq7s-mv3v/files/dee124ae-7422-4ab3-a08c-244c4f6133d5?download=true&filename=Calibration%20Data.zip
